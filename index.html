@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Zakovat Online</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- YUQORI NAVBAR (Shisha effekti) -->
+    <nav class="navbar glass">
+        <div class="nav-brand">🧠 Zakovat Online</div>
+        <div class="nav-links">
+            <button onclick="navigate('home')" class="nav-btn">Bosh sahifa</button>
+            <button onclick="navigate('leaderboard')" class="nav-btn">Reyting</button>
+            <button id="nav-admin-btn" onclick="navigate('admin')" class="nav-btn hidden">Admin</button>
+            <button id="nav-auth-btn" onclick="navigate('auth')" class="nav-btn primary-btn">Kirish</button>
+            <button id="nav-logout-btn" class="nav-btn hidden">Chiqish</button>
+        </div>
+    </nav>
+
+    <!-- ASOSIY QISM -->
+    <main id="app-content">
+
+        <!-- 1. BOSH SAHIFA -->
+        <section id="home-view" class="view active">
+            <div class="hero">
+                <h1>Bilimingizni sinab ko'ring!</h1>
+                <p>O'zbekistonning eng zo'r yoshlari bilan bellashing va reytingda 1-o'rinni egallang.</p>
+                <button onclick="navigate('quizzes')" class="btn-large primary-btn">O'yinni boshlash</button>
+            </div>
+
+            <div class="about-section glass-card">
+                <h2>Sayt haqida</h2>
+                <p>Salom! Mening ismim Sanokulov Saidumar. Men Muhammad al-Xorazmiy nomidagi ixtisoslashtirilgan maktab o'quvchisiman. Bu mening online zakovat veb-saytim. Bu yerda siz zakovat savollarini yechishingiz mumkin.</p>
+            </div>
+        </section>
+
+        <!-- 2. RO'YXATDAN O'TISH VA KIRISH -->
+        <section id="auth-view" class="view">
+            <div class="auth-container glass-card">
+                <h2 id="auth-title">Tizimga kirish</h2>
+                <form id="auth-form">
+                    <input type="text" id="auth-username" placeholder="Foydalanuvchi nomi (Lotin harflari)" required minlength="3" maxlength="20">
+                    <input type="password" id="auth-password" placeholder="Parol (kamida 6 belgi)" required minlength="6">
+                    <p id="auth-error" class="error-text hidden"></p>
+                    <button type="submit" id="auth-submit-btn" class="btn-large primary-btn">Kirish</button>
+                </form>
+                <button id="auth-toggle-btn" class="text-btn">Yangimisiz? Ro'yxatdan o'tish</button>
+            </div>
+        </section>
+
+        <!-- 3. QUIZLAR RO'YXATI -->
+        <section id="quizzes-view" class="view">
+            <h2>Mavjud Quizlar</h2>
+            <div id="quiz-list" class="quiz-grid">
+                <!-- Javascript bu yerni quizlar bilan to'ldiradi -->
+                <p>Yuklanmoqda...</p>
+            </div>
+        </section>
+
+        <!-- 4. O'YIN EKRANI -->
+        <section id="game-view" class="view">
+            <div class="game-header">
+                <span id="question-counter">Savol 1 / 10</span>
+                <span id="current-score">Ball: 0</span>
+            </div>
+            
+            <!-- Taymer (Apple uslubidagi doira) -->
+            <div class="timer-container">
+                <svg class="timer-svg" viewBox="0 0 100 100">
+                    <circle class="timer-bg" cx="50" cy="50" r="45"></circle>
+                    <circle class="timer-progress" id="timer-bar" cx="50" cy="50" r="45"></circle>
+                </svg>
+                <div class="timer-text" id="timer-text">30</div>
+            </div>
+
+            <div class="question-container glass-card">
+                <h2 id="question-text">Savol matni shu yerda chiqadi...</h2>
+                <div id="options-container" class="options-grid">
+                    <!-- Variantlar shu yerga tushadi -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. JONLI REYTING (LEADERBOARD) -->
+        <section id="leaderboard-view" class="view">
+            <div class="leaderboard-header">
+                <h2>🏆 Jonli Reyting</h2>
+                <span class="live-indicator">Jonli</span>
+            </div>
+            <div class="leaderboard-container glass-card">
+                <ul id="leaderboard-list">
+                    <!-- Javascript bu yerni reyting bilan to'ldiradi -->
+                    <p>Yuklanmoqda...</p>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 6. ADMIN PANEL -->
+        <section id="admin-view" class="view">
+            <h2>Admin Panel</h2>
+            <div class="admin-grid">
+                <!-- Yangi quiz yaratish formasi -->
+                <div class="glass-card">
+                    <h3>Yangi Quiz yaratish</h3>
+                    <form id="admin-quiz-form">
+                        <input type="text" id="admin-quiz-title" placeholder="Quiz nomi (Masalan: Tarix)" required>
+                        <input type="text" id="admin-quiz-desc" placeholder="Qisqacha ta'rif" required>
+                        <button type="submit" class="btn-large primary-btn">Yaratish</button>
+                    </form>
+                </div>
+                
+                <!-- Savol qo'shish formasi -->
+                <div class="glass-card">
+                    <h3>Savol qo'shish (Tanlangan quizga)</h3>
+                    <select id="admin-quiz-select">
+                        <option value="">Avval quiz tanlang...</option>
+                    </select>
+                    <form id="admin-question-form">
+                        <textarea id="admin-q-text" placeholder="Savol matni" required></textarea>
+                        <input type="text" id="admin-q-opt1" placeholder="A varianti (To'g'ri javob shu yerga yoziladi)" required>
+                        <input type="text" id="admin-q-opt2" placeholder="B varianti" required>
+                        <input type="text" id="admin-q-opt3" placeholder="C varianti" required>
+                        <input type="text" id="admin-q-opt4" placeholder="D varianti" required>
+                        <button type="submit" class="btn-large success-btn">Savolni saqlash</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- MOBIL PASTKI MENYU (iPhone uslubi) -->
+    <nav class="tab-bar glass">
+        <button onclick="navigate('home')" class="tab-btn">🏠<br>Asosiy</button>
+        <button onclick="navigate('quizzes')" class="tab-btn">🎮<br>O'yin</button>
+        <button onclick="navigate('leaderboard')" class="tab-btn">🏆<br>Reyting</button>
+    </nav>
+
+    <!-- Xabarnoma oynasi (Toast) -->
+    <div id="toast" class="toast hidden">Xabar</div>
+
+    <!-- Firebase kutubxonalari ulash (CDN orqali, modul sifatida) -->
+    <script type="module" src="js/firebase-config.js"></script>
+    <script type="module" src="js/app.js"></script>
+    <script type="module" src="js/auth.js"></script>
+    <script type="module" src="js/quiz.js"></script>
+    <script type="module" src="js/leaderboard.js"></script>
+    <script type="module" src="js/admin.js"></script>
+</body>
+</html>
